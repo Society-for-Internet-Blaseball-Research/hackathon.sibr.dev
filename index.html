@@ -4,8 +4,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snackathon</title>
+
+<style>
+#optout {
+    font-size: small;
+    font-style: italic;
+}
+
+.code {
+    font-family: monospace;
+    font-weight: 600;
+}
+</style>
 </head>
 <body>
-    hey
+    <h1>ATTN: SIBRPUNKS, BLASEBALL FANS, AND CAPYBARA ENTHUSIASTS</h1>
+
+    <p>The Society for Internet Blaseball Research is seeking an answer to an important question over the Grandito Siesta: <strong>What is the most cursed way to watch a Blaseball game?</strong></p>
+
+    <p>To answer this, we will be hosting the first Official SIBR Hackathon! Starting <strong>Aug 2 – Sep 5</strong>, participants will have the challenge to create new and interesting ways to watch Blaseball. All levels of interest and all definitions of "watch Blaseball" are accepted.</p>
+
+    <p>At the end, entries will be ranked by a small group of Professors and surprise secret guests according to three criteria: Cursedness, Technicalness, and Accessibleness:</p>
+    <ul>
+        <li><strong>Cursedness</strong>: How creative and/or esoteric the idea is. We want to encourage folks to join and shoot for the moon regardless of technical ability. Got a proposal and half the infrastructure for Blaseball via Skywriting working but couldn't find a pilot? Still 10/10 Cursedness.</li>
+        <li><strong>Technicalness</strong>: How impressive the implementation is. This one is for the nerds who want to flex a bit, learn some new tech, or just do something silly for the sake of being silly like make a two bit adder out of marbles to track the count.</li>
+        <li><strong>Accessibleness</strong>: How polished and accessible the presentation is. At the end of the day, we want your blaseball viewer to be, well, viewable. Even better if it's something that genuinely increases accessibility to the splort!</li>
+    </ul>
+
+    <p>The highest ranked in each category will be eligible for a $50 USD donation to a charity of their choice, and the highest overall combined rating will be eligible for $100 USD!*</p>
+    <p id="optout">*Participants may opt out of ranking for whatever reason. If this feels like competition and that stresses you out, or you don't like being perceived, or anything else, no worries! Just let us know in your submission.</p>
+
+    <p>Some of our Professors have so kindly offered ideas to take or leave to get the creative juices flowing!</p>
+    <ul>
+        <li>Blaseball plays printed onto a receipt</li>
+        <li>Blaseball score updates cross-stitched and mailed</li>
+        <li><a href="https://wii.blaseball.xyz/">Wii Splorts</a></li>
+        <li>Blaseball through an oscilloscope</li>
+        <li>ncurses</li>
+        <li><a href="https://twitter.com/primunomina/status/1406101845433458689?s=20">Blaseball over telnet at 30000ft</a></li>
+    </ul>
+
+    <h2>Rules</h2>
+    <ul>
+        <li>You may work solo or as part of a team.</li>
+        <li>Submit as many times as you want before midnight PST September 5.</li>
+        <li>Keep things SFW and keep things respectful.</li>
+        <li>Preexisting code, 3rd party libraries, and 3rd party assets are allowed if you have the rights to use them.</li>
+        <li>Viewers that have already shipped (ie Jlohn Mladden, Blases Loaded, Wii Splorts, Blaseball over Telnet etc) are not allowed.</li>
+        <li>Reimplementing old viewers or building something conceptually similar to another participant is not only allowed but encouraged so long as you put your own spin on it.</li>
+        <li>Judges are not qualified for prizes but may participate</li>
+    </ul>
+
+    <p>As this is happening over the Siesta where games will not be happening, we invite you to use <a href="#gettingdata">before.sibr.dev and/or replay.sibr.dev</a> (or make a new replayer as your submission). Documentation for our tools can be found at our website (<a href="https://sibr.dev">sibr.dev</a>) and you are also invited to join us on Discord (<a href="https://discord.sibr.dev">discord.sibr.dev</a>) if you need additional help, are looking for a group, or just want to hang out. Information about the contest will be officially shared on twitter, as well as in the SIBR Discord in the #contest-collaboration channel.</p>
+
+    <h2>Submission</h2>
+    <p>Submit as many projects as you want via <a href="https://forms.gle/YAADANcbKKkC1moM9">this form</a> before Sep 5!</p>
+    <p>If you want to opt out of judgement, let us know in the additional information.</p>
+
+    <h2 id="gettingdata">Getting Data</h2>
+    <p>While programmatically connecting to a live data stream isn't strictly necessary, we do have options for you to play with streaming data.</p>
+
+    <p>Typically game updates will be delivered as JSON in the format documented <a href="https://docs.sibr.dev/docs/apis/reference/Blaseball-API.v1.yaml/components/schemas/StreamData">here</a>.</p>
+
+    <p>You can get these game updates in a variety of ways:</p>
+    <h3>Streaming before.sibr.dev and api.sibr.dev/replay</h3>
+    <p>You can find SSE streams emulating historic Blaseball data at <span class="code">https://before.sibr.dev/events/streamData</span> and <span class="code">https://api.sibr.dev/replay/v1/replay?from=2020-08-30T01:00:08.17Z</span></p>
+    <h4>JavaScript</h4>
+    <pre>
+    stream = new EventSource(`${BLASEBALL_ROOT}/events/streamData`);
+    stream.addEventListener("message", (event) => {
+        const games = JSON.parse(event.data).value?.games?.schedule
+        console.log(games);
+    });
+    </pre>
+    <h4>Python</h4>
+    <pre>
+    async def playback():
+        async for event in stream_events(url="https://before.sibr.dev/events/streamData"):
+            if not event:
+                continue
+            print(event)
+
+    if __name__ == "__main__":
+        loop = asyncio.get_event_loop()
+        loop.create_task(playback())
+        loop.run_forever()
+    </pre>
+    <h3>Polling Chronicler</h3>
+    <h3>Polling Eventually</h3>
+
 </body>
 </html>
