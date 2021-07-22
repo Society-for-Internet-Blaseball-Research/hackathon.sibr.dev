@@ -91,7 +91,20 @@
         loop.run_forever()
     </pre>
     <h3>Polling Chronicler</h3>
+    <p>Chronicler is the backend that powers tools like <a href="https://reblase.sibr.dev/">Reblase</a> and <a href="https://before.sibr.dev/">Before</a>. It provides a REST API to query historic data. Full documentation can be found <a href="https://docs.sibr.dev/docs/apis/reference/Chronicler.v1.yaml">here</a>
+    <h4>cURL</h4>
+    <pre>
+    curl "https://api.sibr.dev/chronicler/v1/games/updates?limit=10" | jq .
+    </pre>
     <h3>Polling Eventually</h3>
-
+    <p>Eventually provides a query interface over Feed events, and as such can also be used to reconstruct game logs, for example with <a href="https://feedeck.sibr.dev">Feedeck</a>. Full documentation can be found <a href="https://alisww.github.io/eventually/#/default/events">here</a> and our understanding of the Feed data model can be found <a href="https://docs.sibr.dev/docs/apis/reference/Blaseball-API.v1.yaml/components/schemas/FeedEvent">here</a>
+    <h4>fetch</h4>
+    <pre>
+    let params = new URLSearchParams();
+    params.append('limit', 10);
+    fetch(`https://api.sibr.dev/eventually/v2/events?${params.toString()}`)
+        .then(res => res.json())
+        .then(js => console.log(js));
+    </pre>
 </body>
 </html>
