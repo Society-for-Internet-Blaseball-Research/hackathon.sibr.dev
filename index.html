@@ -3,21 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Snackathon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<style>
-#optout {
-    font-size: small;
-    font-style: italic;
-}
+    <link href="https://fonts.googleapis.com/css2?family=Crete+Round&display=swap&family=Roboto+Slab:wght@300;400" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&display=swap" rel="stylesheet">
 
-.code {
-    font-family: monospace;
-    font-weight: 600;
-}
-</style>
+    <style>
+    html {
+        line-height: 1.5em;
+    }
+    #optout {
+        font-size: small;
+        font-style: italic;
+    }
+
+    .code {
+        font-family: monospace;
+        font-weight: 600;
+    }
+
+    h1, h2, h3, h4 {
+        font-family: 'Titillium Web', serif;
+    }
+
+    .mainBody {
+        margin: auto;
+        max-width: 60em;
+        padding: 5em;
+        font-family: 'Roboto Slab', sans-serif;
+        font-weight: 300;
+    }
+
+    pre {
+        background-color: #000;
+        color: #FAF;
+    }
+    </style>
+
 </head>
 <body>
+    <div class="mainBody">
     <h1>ATTN: SIBRPUNKS, BLASEBALL FANS, AND CAPYBARA ENTHUSIASTS</h1>
 
     <p>The Society for Internet Blaseball Research is seeking an answer to an important question over the Grandito Siesta: <strong>What is the most cursed way to watch a Blaseball game?</strong></p>
@@ -71,6 +99,7 @@
     <p>You can find SSE streams emulating historic Blaseball data at <span class="code">https://before.sibr.dev/events/streamData</span> and <span class="code">https://api.sibr.dev/replay/v1/replay?from=2020-08-30T01:00:08.17Z</span></p>
     <h4>JavaScript</h4>
     <pre>
+
     stream = new EventSource(`${BLASEBALL_ROOT}/events/streamData`);
     stream.addEventListener("message", (event) => {
         const games = JSON.parse(event.data).value?.games?.schedule
@@ -79,6 +108,7 @@
     </pre>
     <h4>Python</h4>
     <pre>
+
     async def playback():
         async for event in stream_events(url="https://before.sibr.dev/events/streamData"):
             if not event:
@@ -90,21 +120,25 @@
         loop.create_task(playback())
         loop.run_forever()
     </pre>
+
     <h3>Polling Chronicler</h3>
     <p>Chronicler is the backend that powers tools like <a href="https://reblase.sibr.dev/">Reblase</a> and <a href="https://before.sibr.dev/">Before</a>. It provides a REST API to query historic data. Full documentation can be found <a href="https://docs.sibr.dev/docs/apis/reference/Chronicler.v1.yaml">here</a>
     <h4>cURL</h4>
     <pre>
+
     curl "https://api.sibr.dev/chronicler/v1/games/updates?limit=10" | jq .
     </pre>
     <h3>Polling Eventually</h3>
     <p>Eventually provides a query interface over Feed events, and as such can also be used to reconstruct game logs, for example with <a href="https://feedeck.sibr.dev">Feedeck</a>. Full documentation can be found <a href="https://alisww.github.io/eventually/#/default/events">here</a> and our understanding of the Feed data model can be found <a href="https://docs.sibr.dev/docs/apis/reference/Blaseball-API.v1.yaml/components/schemas/FeedEvent">here</a>
     <h4>fetch</h4>
     <pre>
+
     let params = new URLSearchParams();
     params.append('limit', 10);
     fetch(`https://api.sibr.dev/eventually/v2/events?${params.toString()}`)
         .then(res => res.json())
         .then(js => console.log(js));
     </pre>
+    </div>
 </body>
 </html>
