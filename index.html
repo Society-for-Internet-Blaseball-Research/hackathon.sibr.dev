@@ -46,10 +46,37 @@
         background-color: #000;
         color: #FAF;
     }
+
+    .redacted {
+        background-color: #000;
+    }
     </style>
 
+    <script>
+        function redact() {
+            var judges = document.getElementById('judges');
+            var newStr = "";
+            var open = false;
+            for (var c of judges.innerHTML) {
+                if (c === "|") {
+                    if (!open) {
+                        open = true;
+                        newStr += '<span class="redacted"/>';
+                    }
+                } else {
+                    if (open) {
+                        open = false;
+                        newStr += '</span>';
+                    }
+                }
+                newStr += c;
+            }
+            judges.innerHTML = newStr;
+        }
+    </script>
+
 </head>
-<body>
+<body onLoad="redact()">
     <div class="mainBody">
     <h1>ATTN: SIBRPUNKS, BLASEBALL FANS, AND CAPYBARA ENTHUSIASTS</h1>
 
@@ -144,9 +171,11 @@
         .then(res => res.json())
         .then(js => console.log(js));
     </pre>
-    </div>
 
-    <h2>Signed</h2>
-    <p></p>
+    <center>
+        <h2>Signed</h2>
+        <p id="judges">Judge c|||||| ||||, Judge ||||e, Judge ||||||||||||| ||||||||||||||, Judge |||||||||, Judge |||||| ||||||, Judge |||||| r||||||, Judge |||||||||||, Assoc. Judge ||||||</p>
+    </center>
+    </div>
 </body>
 </html>
